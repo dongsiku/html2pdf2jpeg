@@ -1,9 +1,14 @@
 import sys
 from pathlib import Path
 
+from html2pdf import HTML2PDF
+from pdf2jpeg import pdf2jpeg
+
 
 def main():
-    pass
+    h2p = HTML2PDF()
+    saved_pdf_filename = h2p.html2pdf(get_filename())
+    pdf2jpeg(saved_pdf_filename)
 
 
 def get_filename():

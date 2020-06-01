@@ -15,7 +15,7 @@ class HTML2PDF:
         print(self.DOWNLOAD_DIRNAME)
         self.SELENIUM_DELAY_TIME = 4
 
-    def html2pdf(self, html_filename):
+    def html2pdf(self, html_filename: str) -> str:
         html_title = self.save_as_pdf_file(html_filename)
         defalut_pdf_filename = os.path.join(
             str(self.DOWNLOAD_DIRNAME),
@@ -25,14 +25,14 @@ class HTML2PDF:
             # )
             "{}.pdf".format(html_title)
         )
-        new_pdf_filename = defalut_pdf_filename.replace(
+        saved_pdf_filename = defalut_pdf_filename.replace(
             ".pdf", "_{0:%Y%m%d_%H%M%S}.pdf".format(datetime.now())
         )
-        os.rename(defalut_pdf_filename, new_pdf_filename)
+        os.rename(defalut_pdf_filename, saved_pdf_filename)
 
-        return new_pdf_filename
+        return saved_pdf_filename
 
-    def save_as_pdf_file(self, html_filename):
+    def save_as_pdf_file(self, html_filename: str) -> str:
 
         options = webdriver.ChromeOptions()
         appState = {
