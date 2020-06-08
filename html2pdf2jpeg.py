@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import argparse
 
 from html2pdf import HTML2PDF
 from pdf2jpeg import pdf2jpeg
@@ -7,13 +8,22 @@ from pdf2jpeg import pdf2jpeg
 
 def main():
     h2p = HTML2PDF()
-    saved_pdf_filename = h2p.html2pdf(get_filename())
-    pdf2jpeg(saved_pdf_filename)
+    html_filename, image_resolution = get_filename_and_resolution()
+    saved_pdf_filename = h2p.html2pdf(html_filename)
+    pdf2jpeg(saved_pdf_filename, image_resolution)
 
 
-def get_filename():
-    if len(sys.argv) == 2:
-        html_filename = sys.argv[1]
+def get_filename_and_resolution():
+    parser = argparse.ArgumentParser(
+        description='Specify the filename and output image file resolution')
+    parser.add_argument('--filename', help='Specify the file name')
+    parser.add_argument(
+        '--resolution', '-r', type=int, default=600,
+        help='Specify output image resolution (dpi)')
+    args = parser.parse_args()
+
+    if args.filename is not None:
+        html_filename = args.filename
         if not Path.exists(html_filename):
             html_filename = ""
             raise FileNotFoundError
@@ -32,7 +42,7 @@ def get_filename():
             raise FileNotFoundError
 
     print(html_filename)
-    return html_filename
+    return html_filename, args.resolution
 
 
 if __name__ == "__main__":

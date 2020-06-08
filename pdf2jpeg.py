@@ -4,11 +4,12 @@ from os import path
 PROJ_DIRNAME = path.dirname(path.abspath(__file__))
 
 
-def pdf2jpeg(pdf_filename: str):
+def pdf2jpeg(pdf_filename: str, image_resolution: int):
     PDF2JPEG_SH_FILENAME = path.join(PROJ_DIRNAME, "pdf2jpeg.sh")
-    cmd = 'wsl bash {} {}'.format(
+    cmd = 'wsl bash {} {} {}'.format(
         windows_filename_to_linux_filename(PDF2JPEG_SH_FILENAME),
-        windows_filename_to_linux_filename(pdf_filename)
+        windows_filename_to_linux_filename(pdf_filename),
+        image_resolution
     )
     subprocess.run(cmd.split())
 
